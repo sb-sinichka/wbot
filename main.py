@@ -37,7 +37,10 @@ def weather(message):
     w_info = get_weather(city)
     result = f'Погода в городе {city}: {w_info}'
     bot.send_message(message.chat.id, result)
-    speak(result)
+    engine.save_to_file(result, "file.mp3")
+    with open("file.mp3", "rb") as f:
+        @bot.send_voice(message.chat.id, f)
+    
 
 
 bot.polling()

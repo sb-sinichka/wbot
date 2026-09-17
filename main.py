@@ -5,7 +5,8 @@ import pyttsx3
 engine = pyttsx3.init()
 
 def speak(text: str):
-    engine.say(text)
+    # engine.say(text)
+    engine.save_to_file(text, "file.mp3")
     engine.runAndWait()
 
 def get_weather(city: str) -> str:
@@ -36,8 +37,11 @@ def weather(message):
     city = words[1]
     w_info = get_weather(city)
     result = f'Погода в городе {city}: {w_info}'
-    bot.send_message(message.chat.id, result)
     speak(result)
+    bot.send_message(message.chat.id, result)
+    with open("file.mp3", "rb") as f:
+        bot.send_voice(message.chat.id, f)
+    
 
 
 bot.polling()
